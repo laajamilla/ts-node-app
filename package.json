@@ -1,0 +1,45 @@
+{
+  "name": "ts-node-app",
+  "version": "1.0.0",
+  "description": "Ohjelmistokehitys_teknologiat_Haaga-Helia2023",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf dist && npx tsc",
+    "prestart": "npm run build",
+    "start": "node dist/index.js",
+    "preserve": "npm run build",
+    "serve": "concurrently  \"npx tsc -w\"   \"nodemon dist/index.js\" "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/laajamilla/ts-node-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/laajamilla/ts-node-app/issues"
+  },
+  "homepage": "https://github.com/laajamilla/ts-node-app#readme",
+  "devDependencies": {
+    "@types/cors": "^2.8.14",
+    "@types/express": "^4.17.17",
+    "@types/mysql": "^2.15.21",
+    "@types/node": "^20.6.1",
+    "nodemon": "^3.0.1",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "knex": "^2.5.1",
+    "mysql": "^2.18.1",
+    "winston": "^3.10.0"
+  }
+}

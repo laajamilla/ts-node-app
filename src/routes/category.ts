@@ -1,6 +1,6 @@
 
 import express, { Response, Request } from 'express';
-import { successHandler } from '../responseHandler/index.js';
+import { requestErrorHandler, successHandler } from '../responseHandler/index.js';
 import { validate, validateDescription, validateDescriptionObl, validateIdObl, validateNameObl } from '../validationHandler/index.js';
 import { Category } from "../types.js";
 
@@ -39,12 +39,21 @@ category.get(
             (value) => value.id === Number(req.params.id)
         );
 
+        if(foundOne.length > 0) {
+
         successHandler(
             req,
             resp,
             foundOne,
-            `Succesfully read category from DB`,
+            `Succesfully read category ${req.params.id} from DB`,
         );
+    } else {
+        requestErrorHandler(
+            req,
+            resp,
+            `No category found for id ${req.params.id}`
+        )
+    }
     }
 );
 // POST- metodi, tarkistaa onko saman niminen olemassa.
@@ -66,17 +75,17 @@ category.post(
             7,
             `Succesfully added a category to DB`,
         );
-    } else {
-        // jos määrittää statuksen, ei saa viestiä.
-        // jos laittaa viestin, status ei muutu. MIKSI?
-        //resp.status(304);
-        //resp.status(304).send('category allready exists');
-        resp.send('category allready exists');
-    }
+     } else {
+        requestErrorHandler(
+            req,
+            resp,
+            `category ${req.body.name} all ready exists in DB`,
+        )
+     }
   
     }
 );
-// pakollinen kuvausteksti, jos jotain muutettu
+// pakollinen kuvausteksti, jos jotain muutettu 
 category.put(
     '/',
     validateIdObl,
@@ -89,7 +98,7 @@ category.put(
             req,
             resp,
             1,
-            `Succesfully added a category to DB`,
+            `Succesfully updated category ${req.body.name} DB. Description: ${req.body.description}`,
         );
     }
 );
